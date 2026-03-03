@@ -11,9 +11,11 @@ const { read } = require("fs");
 app.use(express.json());
 app.use(cors());
 
-//Database connection with mongodb
-mongoose.connect("mongodb+srv://supriyaacharya63:supriya07@cluster1.fepwiu1.mongodb.net/e-commerce");
 
+//Database connection with mongodb
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log(err));
 //API creation
 
 app.get("/",(req,res)=>{

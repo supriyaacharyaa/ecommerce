@@ -43,7 +43,7 @@ if(localStorage.getItem('auth-token')){
     fetch('http://localhost:4002/addtocart',{
         method : "POST",
         headers:{
-            Accept:'application/form-data',
+            Accept:'application/json',
             'auth-token':`${localStorage.getItem('auth-token')}`,
             'Content-Type': 'application/json'
         },
@@ -73,8 +73,10 @@ if(localStorage.getItem('auth-token')){
         let totalAmount=0;
         for(const item in cartItems){
             if (cartItems[item]>0){
-                let itemInfo  = all_product.find((product)=>product.id===Number(item))
-totalAmount+=itemInfo.new_price*cartItems[item];
+               let itemInfo = all_product.find((product)=>product.id === Number(item));
+if(itemInfo){
+   totalAmount += itemInfo.new_price * cartItems[item];
+}
                 }
                 
             }return totalAmount;
