@@ -6,24 +6,27 @@ const ListProduct = () => {
 
   const[allProducts,setAllProducts]= useState([]);
 
-  const fetchInfo = async()=> {
-    await fetch('http://localhost:4002/allproducts').then((res)=>res.json()).then((data)=>{setAllProducts(data)})
-  }
+const fetchInfo = async () => {
+  await fetch('https://ecommerce-backend-ok35.onrender.com/allproducts')
+    .then((res) => res.json())
+    .then((data) => { setAllProducts(data) });
+}
 
   useEffect(()=>{
     fetchInfo();
   },[])
 
-const remove_product = async(id)=>{
-  await fetch('http://localhost:4002/removeproduct',{
-    method:"POST",
-    headers:{
-      Accept:'application/json',
-      'Content-Type':'application/json',
+const remove_product = async (id) => {
+  await fetch('https://ecommerce-backend-ok35.onrender.com/removeproduct', {
+    method: "POST",
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    body : JSON.stringify({id:id})
-  })
- await fetchInfo();
+    body: JSON.stringify({ id: id })
+  });
+
+  await fetchInfo(); // refresh product list
 }
 
   return (

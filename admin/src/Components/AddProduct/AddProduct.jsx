@@ -21,36 +21,38 @@ setImage(e.target.files[0]);
     setProductDetails({...productDetails,[e.target.name]: e.target.value})
  }
 
- const Add_Product =async()=>{
-    console.log(productDetails);
-    let responseData;
-    let product = productDetails;
+const Add_Product = async () => {
 
-    let formData = new FormData();
-    formData.append('product',image);
+  let responseData;
+  let product = productDetails;
 
-    await fetch('http://localhost:4002/upload',{
-        method:"POST",
-        headers:{
-Accept:'application/json'
-        },
-        body: formData,
-    }).then((resp)=>resp.json()).then((data)=>{responseData=data})
+  let formData = new FormData();
+  formData.append('product', image);
 
-    if(responseData.success){
-        product.image= responseData.image_url;
-        console.log(product);
-        await fetch('http://localhost:4002/addproduct',{
-    method:"POST",
-    headers:{
-      Accept:"application/json",
-      'Content-Type':'application/json'
-    },
-    body:JSON.stringify(product),
-        }).then((resp)=>resp.json()).then((data)=>{
-          data.success? alert("Product Added"):alert("Failed")
-        })    }
- }
+  await fetch('https://ecommerce-backend-ok35.onrender.com/upload', {
+    method: "POST",
+    body: formData,
+  })
+  .then((resp) => resp.json())
+  .then((data) => { responseData = data });
+
+  if (responseData.success) {
+    product.image = responseData.image_url;
+
+    await fetch('https://ecommerce-backend-ok35.onrender.com/addproduct', {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(product),
+    })
+    .then((resp) => resp.json())
+    .then((data) => {
+      data.success ? alert("Product Added") : alert("Failed");
+    });
+  }
+}
 
   return (
     <div className='add-product'>
